@@ -1,0 +1,41 @@
+<div class="home-container" [class.collapsed-sidenav]="isSidenavCollapsed">
+    <!-- Sidenav -->
+    <nav class="sidenav" [class.collapsed]="isSidenavCollapsed">
+      <div class="sidenav-header">
+        <img src="assets/logo-placeholder.png" alt="Logo" class="logo">
+        <button class="toggle-btn" (click)="toggleSidenav()">
+          <span class="toggle-icon">☰</span>
+        </button>
+      </div>
+  
+      <div class="sidenav-content">
+        <a routerLink="tasks" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span class="nav-text" [class.hidden]="isSidenavCollapsed">Tasks</span>
+        </a>
+        <a routerLink="meetings" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span class="nav-text" [class.hidden]="isSidenavCollapsed">Meetings</span>
+        </a>
+        <a routerLink="profile" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span class="nav-text" [class.hidden]="isSidenavCollapsed">Profile</span>
+        </a>
+      </div>
+  
+      <div class="sidenav-footer">
+        <button (click)="logout()" class="logout-btn">
+          <span class="nav-icon">🚪</span>
+          <span class="nav-text" [class.hidden]="isSidenavCollapsed">Logout</span>
+        </button>
+      </div>
+    </nav>
+  
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+  
