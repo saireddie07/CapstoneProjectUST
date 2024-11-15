@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{EA2D68D8-EE1C-4D93-A620-6B1868820DA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{74A2A4B6-D9BE-4147-B332-AB3259502626}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{E6651F5E-5992-4A33-ACFA-80CE09C6331B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{111D5461-52D7-432A-8094-34153B0A969C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthAPI", "AuthAPI\AuthAPI.csproj", "{74CF1607-2CEC-4D51-917D-70D5E89164C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagemenetAPI", "TaskManagemenetAPI\TaskManagemenetAPI.csproj", "{5A128B87-0949-41E5-8825-73F24B429D6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calendar_API", "Calendar_API\Calendar_API.csproj", "{929C4693-A8A5-447B-95B4-9D954C6886F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meetings_API", "Meetings_API\Meetings_API.csproj", "{ADE20A7E-923A-4624-9946-C3654351E408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification_API", "Notification_API\Notification_API.csproj", "{E7976015-2C98-4685-B99E-E8F8A0686048}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74CF1607-2CEC-4D51-917D-70D5E89164C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74CF1607-2CEC-4D51-917D-70D5E89164C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74CF1607-2CEC-4D51-917D-70D5E89164C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74CF1607-2CEC-4D51-917D-70D5E89164C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A128B87-0949-41E5-8825-73F24B429D6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A128B87-0949-41E5-8825-73F24B429D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A128B87-0949-41E5-8825-73F24B429D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A128B87-0949-41E5-8825-73F24B429D6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{929C4693-A8A5-447B-95B4-9D954C6886F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{929C4693-A8A5-447B-95B4-9D954C6886F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{929C4693-A8A5-447B-95B4-9D954C6886F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{929C4693-A8A5-447B-95B4-9D954C6886F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE20A7E-923A-4624-9946-C3654351E408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE20A7E-923A-4624-9946-C3654351E408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE20A7E-923A-4624-9946-C3654351E408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE20A7E-923A-4624-9946-C3654351E408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7976015-2C98-4685-B99E-E8F8A0686048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7976015-2C98-4685-B99E-E8F8A0686048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7976015-2C98-4685-B99E-E8F8A0686048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7976015-2C98-4685-B99E-E8F8A0686048}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{74CF1607-2CEC-4D51-917D-70D5E89164C9} = {111D5461-52D7-432A-8094-34153B0A969C}
+		{5A128B87-0949-41E5-8825-73F24B429D6B} = {111D5461-52D7-432A-8094-34153B0A969C}
+		{929C4693-A8A5-447B-95B4-9D954C6886F6} = {111D5461-52D7-432A-8094-34153B0A969C}
+		{ADE20A7E-923A-4624-9946-C3654351E408} = {111D5461-52D7-432A-8094-34153B0A969C}
+		{E7976015-2C98-4685-B99E-E8F8A0686048} = {111D5461-52D7-432A-8094-34153B0A969C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {982AD4CD-1695-409A-A709-EA72B7820024}
+	EndGlobalSection
+EndGlobal
