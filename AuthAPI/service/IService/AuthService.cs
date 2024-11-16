@@ -35,6 +35,7 @@ namespace AuthAPI.service.IService
                 Name = user.Name,
                 PhoneNumber = user.PhoneNumber,
                 Role=user.Role,
+                IsApproved=user.IsApproved,
             };
             LoginResponseDto loginResponseDto = new LoginResponseDto()
             {
@@ -45,6 +46,39 @@ namespace AuthAPI.service.IService
             return loginResponseDto;
 
         }
+        public async Task<UserDto> GetUserDetailsByUsername(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return new UserDto
+            {
+                ID = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                PhoneNumber = user.PhoneNumber,
+                Role = user.Role,
+                IsApproved = user.IsApproved
+            };
+        }
+
+        public async Task<bool> UpdateIsApproved(string username, bool isApproved)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.IsApproved = isApproved;
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+
         public async Task<string> Register(RegistrationRequestDto registrationRequestDto)
 
         {
@@ -61,7 +95,11 @@ namespace AuthAPI.service.IService
 
                 Name = registrationRequestDto.Name,
 
-                PhoneNumber = registrationRequestDto.PhoneNumber
+                PhoneNumber = registrationRequestDto.PhoneNumber,
+                Role =registrationRequestDto.Role,
+               
+                
+            
 
             };
 

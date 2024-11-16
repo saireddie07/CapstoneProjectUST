@@ -51,6 +51,34 @@ namespace AuthAPI.Controllers
             _response.Result = loginResponse;
             return Ok(_response);
         }
+        [HttpPut("updateIsApproved/{username}")]
+        public async Task<IActionResult> UpdateIsApproved(string username, [FromBody] bool isApproved)
+        {
+            var isUpdated = await _authService.UpdateIsApproved(username, isApproved);
+            if (!isUpdated)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Error encountered while updating user approval status";
+                return BadRequest(_response);
+            }
+
+            return Ok(_response);
+        }
+        [HttpGet("getUser/{username}")]
+        public async Task<IActionResult> GetUserByUsername(string username)
+        {
+            var userDetails = await _authService.GetUserDetailsByUsername(username);
+            if (userDetails == null)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "User not found";
+                return NotFound(_response);
+            }
+
+            _response.Result = userDetails;
+            return Ok(_response);
+        }
+
         [HttpPost("AssignRole")]
         public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
         {
