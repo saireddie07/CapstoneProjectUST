@@ -18,6 +18,16 @@ namespace TaskManagemenetAPI.Service
         {
             return await _context.Tasks.ToListAsync(); // Retrieve all tasks from the database
         }
+        public async Task<bool> DeleteTaskAsync(int id)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+            if (task == null)
+                return false;
+
+            _context.Tasks.Remove(task);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<TaskDetails> GetTaskByIdAsync(int id)
         {

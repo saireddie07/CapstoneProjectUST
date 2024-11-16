@@ -10,7 +10,7 @@ namespace TaskManagemenetAPI.Model
         public string TaskDescription { get; set; }
         public DateTime TaskAssignedDate { get; set; }
         public DateTime TaskDeadline { get; set; }
-        public string? TaskStatus { get; set; }
+        public string? TaskStatus { get; set; } = "TODO";
         public string? TaskRemarks { get; set; }
         public string UserName { get; set; }
     }

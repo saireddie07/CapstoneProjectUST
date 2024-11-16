@@ -10,7 +10,28 @@ namespace Meetings_API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-           
+            builder.Services.AddCors(options =>
+
+            {
+
+                options.AddPolicy("AllowAngularApp",
+
+                  builder =>
+
+                  {
+
+                      builder.AllowAnyOrigin()
+
+            .AllowAnyHeader()
+
+            .AllowAnyMethod();
+
+                  });
+
+            });
+
+
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -22,6 +43,7 @@ namespace Meetings_API
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            app.UseCors("AllowAngularApp");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

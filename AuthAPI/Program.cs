@@ -13,6 +13,25 @@ namespace AuthAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddCors(options =>
+
+            {
+
+                options.AddPolicy("AllowAngularApp",
+
+                  builder =>
+
+                  {
+
+                      builder.AllowAnyOrigin()
+
+            .AllowAnyHeader()
+
+            .AllowAnyMethod();
+
+                  });
+
+            });
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -30,6 +49,7 @@ namespace AuthAPI
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            app.UseCors("AllowAngularApp");
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             // Configure the HTTP request pipeline.
