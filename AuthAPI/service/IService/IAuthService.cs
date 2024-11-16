@@ -1,4 +1,5 @@
-﻿using AuthAPI.Models.Dto;
+﻿using AuthAPI.Models;
+using AuthAPI.Models.Dto;
 
 namespace AuthAPI.service.IService
 {
@@ -9,5 +10,7 @@ namespace AuthAPI.service.IService
         Task<bool> AssignRole(string email, string rolename);
         Task<UserDto> GetUserDetailsByUsername(string username);
         Task<bool> UpdateIsApproved(string username, bool isApproved);
+        Task<List<ApplicationUser>> GetUnapprovedUsersAsync();
+
     }
 }

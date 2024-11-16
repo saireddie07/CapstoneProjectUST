@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calendar_API", "Calendar_AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meetings_API", "Meetings_API\Meetings_API.csproj", "{ADE20A7E-923A-4624-9946-C3654351E408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification_API", "Notification_API\Notification_API.csproj", "{E7976015-2C98-4685-B99E-E8F8A0686048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification_API", "Notification_API\Notification_API.csproj", "{E7976015-2C98-4685-B99E-E8F8A0686048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackAPI", "FeedbackAPI\FeedbackAPI.csproj", "{998FBCDE-DCB8-433B-A905-821750337BCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{E7976015-2C98-4685-B99E-E8F8A0686048}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7976015-2C98-4685-B99E-E8F8A0686048}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7976015-2C98-4685-B99E-E8F8A0686048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{998FBCDE-DCB8-433B-A905-821750337BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{998FBCDE-DCB8-433B-A905-821750337BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{998FBCDE-DCB8-433B-A905-821750337BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{998FBCDE-DCB8-433B-A905-821750337BCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{929C4693-A8A5-447B-95B4-9D954C6886F6} = {111D5461-52D7-432A-8094-34153B0A969C}
 		{ADE20A7E-923A-4624-9946-C3654351E408} = {111D5461-52D7-432A-8094-34153B0A969C}
 		{E7976015-2C98-4685-B99E-E8F8A0686048} = {111D5461-52D7-432A-8094-34153B0A969C}
+		{998FBCDE-DCB8-433B-A905-821750337BCE} = {111D5461-52D7-432A-8094-34153B0A969C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {982AD4CD-1695-409A-A709-EA72B7820024}

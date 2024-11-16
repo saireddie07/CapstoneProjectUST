@@ -64,6 +64,21 @@ namespace AuthAPI.Controllers
 
             return Ok(_response);
         }
+
+        [HttpGet("unapproved-users")]
+        public async Task<IActionResult> GetUnapprovedUsers()
+        {
+            var users = await _authService.GetUnapprovedUsersAsync();
+            return Ok(users.Select(user => new
+            {
+                user.Id,
+                user.UserName,
+                user.Email,
+                user.Name,
+                user.PhoneNumber,
+                user.IsApproved
+            }));
+        }
         [HttpGet("getUser/{username}")]
         public async Task<IActionResult> GetUserByUsername(string username)
         {

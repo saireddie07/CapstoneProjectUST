@@ -46,6 +46,12 @@ namespace AuthAPI.service.IService
             return loginResponseDto;
 
         }
+        public async Task<List<ApplicationUser>> GetUnapprovedUsersAsync()
+        {
+            return _userManager.Users
+                .Where(user => user.IsApproved == false)
+                .ToList();
+        }
         public async Task<UserDto> GetUserDetailsByUsername(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
