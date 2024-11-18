@@ -12,5 +12,6 @@ namespace Meetings_API.Services
         Task<bool> AssignParticipantToMeetingAsync(int meetingId, string userId);
         Task<IEnumerable<Meeting>> GetMeetingsByUserIdAsync(string userId);
         Task<List<Meeting>> GetAllMeetingsAsync();
+        Task<bool> UpdateMeetingStatusAsync(int meetingId, string status);
     }
 }

@@ -15,6 +15,9 @@ namespace Meetings_API.Model
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public string TimeZone { get; set; }  // New Field
+        public string Status { get; set; } = "SCHEDULED";   // New Field (e.g., "Scheduled", "Cancelled", "Completed")
+        public string MeetingLink { get; set; }
         public virtual ICollection<MeetingParticipant> Participants { get; set; }
     }
 }

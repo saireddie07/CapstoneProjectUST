@@ -76,6 +76,7 @@ namespace AuthAPI.Controllers
                 user.Email,
                 user.Name,
                 user.PhoneNumber,
+                user.Role,
                 user.IsApproved
             }));
         }

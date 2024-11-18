@@ -44,11 +44,12 @@ namespace Meetings_API.Controllers
                     StartTime = meetingDto.StartTime,
                     EndTime = meetingDto.EndTime,
                     Location = meetingDto.Location,
+                    TimeZone = meetingDto.TimeZone,
+                    MeetingLink = meetingDto.MeetingLink,
                     OrganizerId = organizerId,
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow
                 };
-
                 // Add the meeting to the database and let the database auto-generate the Id
                 var createdMeeting = await _meetingService.CreateMeetingAsync(meeting);
 

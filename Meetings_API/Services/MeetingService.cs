@@ -20,6 +20,20 @@ namespace Meetings_API.Services
             await _context.SaveChangesAsync();  // This saves the meeting and auto-generates the Id
             return meeting;
         }
+        public async Task<bool> UpdateMeetingStatusAsync(int meetingId, string status)
+        {
+            var meeting = await _context.Meetings.FindAsync(meetingId);
+
+            if (meeting == null || !meeting.IsActive)
+                return false;
+
+            meeting.Status = status;
+            meeting.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<List<Meeting>> GetAllMeetingsAsync()
         {
             return await _context.Meetings
