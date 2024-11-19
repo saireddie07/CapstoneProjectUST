@@ -6,5 +6,5 @@ export interface Task {
     taskDeadline: string;
     taskStatus: 'TODO' | 'IN_PROGRESS' | 'COMPLETED';
     taskRemarks: string;
-    taskAssignedTo: string;
+    userName: string;
   }

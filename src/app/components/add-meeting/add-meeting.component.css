@@ -1,0 +1,272 @@
+/* meeting-scheduler.component.scss */
+
+  /* Variables */
+  :root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --border-color: #e5e7eb;
+    --text-color: #374151;
+    --label-color: #4b5563;
+    --background-start: #f8faff;
+    --background-end: #eef2ff;
+  }
+  
+  /* Container Styles */
+  .scheduler-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .scheduler-card {
+    width: 100%;
+    max-width: 800px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: cardAppear 0.5s ease-out;
+  }
+  
+  /* Header Styles */
+  .header {
+    background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+    color: black;
+    display: flex;
+    align-items: center;
+    
+  
+    h2 {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+  }
+  
+  .header-icon {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+  }
+  
+  /* Form Styles */
+  .form-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+   
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  label {
+    color: var(--label-color);
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+  
+  .required {
+    color: var(--error-color);
+    margin-left: 0.25rem;
+  }
+  
+  .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    color: #6b7280;
+    font-size: 1rem;
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--text-color);
+    background: white;
+    transition: all 0.2s ease;
+  
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+  
+    &.error {
+      border-color: var(--error-color);
+      
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      }
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  /* Grid Layout */
+  .datetime-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  
+    @media (min-width: 640px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  /* Button Styles */
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+  
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    
+  
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  .btn-primary {
+    background: var(black);
+    color: black;
+  
+    &:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+  }
+  
+  .btn-secondary {
+    background: #f3f4f6;
+    color: var(--text-color);
+  
+    &:hover {
+      background: #e5e7eb;
+    }
+  }
+  
+  /* Message Boxes */
+  .message {
+    padding: 1rem;
+    border-radius: 8px;
+    animation: messageSlide 0.3s ease-out;
+  }
+  
+  .error-box {
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    color: var(--error-color);
+  }
+  
+  .success-box {
+    background: #f0fdf4;
+    border: 1px solid #dcfce7;
+    color: var(--success-color);
+  }
+  
+  /* Error Messages */
+  .error-message {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  /* Loading Spinner */
+  .spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #ffffff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  /* Animations */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes cardAppear {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes messageSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 640px) {
+    .scheduler-container {
+      padding: 1rem;
+    }
+  
+    .scheduler-card {
+      border-radius: 12px;
+    }
+  
+    .header {
+      padding: 1.5rem;
+    }
+  
+    .form-container {
+      padding: 1.5rem;
+    }
+  
+    .button-group {
+      flex-direction: column-reverse;
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+}

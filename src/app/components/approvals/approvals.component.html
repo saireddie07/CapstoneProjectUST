@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-gradient">
+    <div class="container">
+      <div class="approval-card-container">
+        <div class="header-section">
+          <h1 class="main-title">User Approval Requests</h1>
+        </div>
+  
+        <div class="cards-container">
+          <div class="approval-card" *ngFor="let user of users">
+            <div class="card-header">
+              <div class="user-info-header">
+                <div class="avatar-circle">
+                  <i class="user-icon">👤</i>
+                </div>
+                <div class="user-header-details">
+                  <h3 class="user-name">{{user.name}}</h3>
+                  <span class="status-badge status-pending">Pending Approval</span>
+                </div>
+              </div>
+            </div>
+  
+            <div class="card-content">
+              <div class="info-row">
+                <i class="info-icon">📧</i>
+                <span class="info-text">{{user.email}}</span>
+              </div>
+              <div class="info-row">
+                <i class="info-icon">📱</i>
+                <span class="info-text">{{user.phoneNumber}}</span>
+              </div>
+              <div class="info-row">
+                <i class="info-icon">💼</i>
+                <span class="info-text">{{user.role}}</span>
+              </div>
+            </div>
+  
+            <div class="card-footer">
+              <button class="reject-btn" ><!--(click)="rejectUser()"-->
+                Reject
+              </button>
+              <button class="approve-btn" (click)="approveUser(user.email)">
+                Approve
+              </button>
+            </div>
+          </div>
+  
+          <div class="empty-state" *ngIf="!users?.length">
+            <h3 class="empty-title">No pending approval requests</h3>
+            <p class="empty-subtitle">All user requests have been processed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

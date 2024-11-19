@@ -1,0 +1,161 @@
+<!-- meeting-scheduler.component.html -->
+<div class="scheduler-container">
+    <div class="scheduler-card">
+      <div class="header">
+        <div class="header-icon">📅</div>
+        <h2>Schedule a New Meeting</h2>
+      </div>
+  
+      <form [formGroup]="meetingForm" (ngSubmit)="onSubmit()" class="form-container">
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title">Title<span class="required">*</span></label>
+          <div class="input-container">
+            <span class="input-icon">📝</span>
+            <input 
+              type="text" 
+              id="title"
+              formControlName="title"
+              placeholder="Enter meeting title"
+              [class.error]="isFieldInvalid('title')"
+            >
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('title')">
+            Title is required
+          </div>
+        </div>
+  
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Description</label>
+          <div class="input-container">
+            <span class="input-icon">📄</span>
+            <textarea 
+              id="description"
+              formControlName="description"
+              rows="2"
+              placeholder="Enter a brief description"
+            ></textarea>
+          </div>
+        </div>
+  
+        <!-- Date/Time Grid -->
+        <div class="datetime-grid">
+          <!-- Start Date and Time -->
+          <div class="form-group">
+            <label for="startDateTime">Start Date & Time<span class="required">*</span></label>
+            <div class="input-container">
+              <span class="input-icon">🕐</span>
+              <input 
+                type="datetime-local" 
+                id="startDateTime"
+                formControlName="startDateTime"
+                [class.error]="isFieldInvalid('startDateTime')"
+              >
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('startDateTime')">
+              Start date and time is required
+            </div>
+          </div>
+  
+          <!-- End Date and Time -->
+          <div class="form-group">
+            <label for="endDateTime">End Date & Time<span class="required">*</span></label>
+            <div class="input-container">
+              <span class="input-icon">🕒</span>
+              <input 
+                type="datetime-local" 
+                id="endDateTime"
+                formControlName="endDateTime"
+                [class.error]="isFieldInvalid('endDateTime')"
+              >
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('endDateTime')">
+              End date and time is required
+            </div>
+            <div class="error-message" *ngIf="meetingForm.errors?.['invalidDateRange']">
+              End time must be after start time
+            </div>
+          </div>
+        </div>
+  
+        <!-- Platform -->
+        <div class="form-group">
+          <label for="platform">Platform</label>
+          <div class="input-container">
+            <span class="input-icon">💻</span>
+            <input 
+              type="text" 
+              id="platform"
+              formControlName="platform"
+              placeholder="Enter platform (e.g., Zoom, Google Meet)"
+            >
+          </div>
+        </div>
+  
+        <!-- Timezone -->
+        <div class="form-group">
+          <label for="timeZone">Time Zone<span class="required">*</span></label>
+          <div class="input-container">
+            <span class="input-icon">🌍</span>
+            <select 
+              id="timeZone"
+              formControlName="timeZone"
+              [class.error]="isFieldInvalid('timeZone')"
+            >
+              <option value="">Select Time Zone</option>
+              <option value="UTC">UTC</option>
+              <option value="EST">EST</option>
+              <option value="PST">PST</option>
+              <option value="IST">IST</option>
+            </select>
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('timeZone')">
+            Time zone is required
+          </div>
+        </div>
+  
+        <!-- Meeting Link -->
+        <div class="form-group">
+          <label for="link">Meeting Link<span class="required">*</span></label>
+          <div class="input-container">
+            <span class="input-icon">🔗</span>
+            <input 
+              type="text" 
+              id="link"
+              formControlName="link"
+              placeholder="Paste meeting link here"
+              [class.error]="isFieldInvalid('link')"
+            >
+          </div>
+          <div class="error-message" *ngIf="isFieldInvalid('link')">
+            Meeting link is required
+          </div>
+        </div>
+  
+        <!-- Messages -->
+        <div class="message error-box" *ngIf="errorMessage" [@fadeInOut]>
+          ⚠️ {{ errorMessage }}
+        </div>
+  
+        <div class="message success-box" *ngIf="successMessage" [@fadeInOut]>
+          ✅ {{ successMessage }}
+        </div>
+  
+        <!-- Buttons -->
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary" 
+            [disabled]="meetingForm.invalid || isSubmitting"
+          >
+            <span class="spinner" *ngIf="isSubmitting"></span>
+            {{ isSubmitting ? 'Creating...' : 'Create Meeting' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

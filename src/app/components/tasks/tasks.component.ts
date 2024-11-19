@@ -9,6 +9,12 @@ import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task.interface';
 
+interface UserDetails {
+  username: string;
+  email: string;
+  phoneNumber: string;
+  role: string;
+}
 
 
 @Component({
@@ -258,14 +264,15 @@ import { Task } from '../../models/task.interface';
 })
 export class TasksComponent implements OnInit {tasks: Task[] = [];
   editForms: { [key: number]: FormGroup } = {};
-
+  userName=localStorage.getItem('currentUser') as string;
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService
   ) {}
 
   ngOnInit() {
-    this.taskService.getAllTasks().subscribe({
+   
+    this.taskService.getTaskByUserName(this.userName).subscribe({
       next: (tasks) => {
         this.tasks = tasks;
         localStorage.setItem("Token","Ancd");
@@ -286,6 +293,10 @@ export class TasksComponent implements OnInit {tasks: Task[] = [];
   }
   
   getStatusClass(status: string): string {
+    
+    if (!status) {
+      return 'todo'; // or return a default status class
+    }
     return `status-${status.toLowerCase().replace('_', '-')}`;
   }
 
@@ -294,11 +305,20 @@ export class TasksComponent implements OnInit {tasks: Task[] = [];
     const taskIndex = this.tasks.findIndex(t => t.taskId === taskId);
     
     if (taskIndex !== -1) {
-      this.tasks[taskIndex] = {
-        ...this.tasks[taskIndex],
-        taskStatus: formValue.status,
-        taskRemarks: formValue.comments
-      };
+      this.taskService.updateTaskStatus(taskId, formValue.status, formValue.comments)
+        .subscribe({
+          next: (updatedTask) => {
+            // Update the local tasks array with the response from the server
+            this.tasks[taskIndex] = updatedTask;
+            console.log('Task updated successfully');
+            alert("Task updated");
+          },
+          error: (error) => {
+            console.error('Error updating task:', error);
+            alert("Task updation failed:");
+            // Optionally, you could revert the local change here
+          }
+        });
     }
   }
   }

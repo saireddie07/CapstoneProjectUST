@@ -2,25 +2,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-interface Meeting {
-  id: number;
-  title: string;
-  description: string;
-  startDateTime: Date;
-  endDateTime: Date;
-  timeZone: string;
-  status: 'SCHEDULED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
-}
+import { Meeting, MeetingDetails } from '../../models/meetings.interface'
+import { AddMeetingComponent } from "../add-meeting/add-meeting.component";
+import { MeetingService } from '../../services/meetings.service';
+import { AuthService } from '../../services/auth.service';
+import { EmailService } from '../../services/email.service';
 
 @Component({
   selector: 'app-meetings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AddMeetingComponent],
   template: `
+  <app-add-meeting/>
     <div class="dashboard">
-      
-      
       <div class="meetings-grid">
         <div class="meeting-card" *ngFor="let meeting of meetings">
           <div class="meeting-card-header">
@@ -32,6 +26,7 @@ interface Meeting {
 
           <div class="meeting-card-body">
             <div class="meeting-description">
+              <p>MeetingId: {{meeting.id}}</p><br/>
               <p>{{meeting.description}}</p>
             </div>
 
@@ -41,7 +36,7 @@ interface Meeting {
                 <div class="time-details">
                   <span class="time-label">Starts</span>
                   <span class="time-value">
-                    {{meeting.startDateTime | date:'MMM d, y, h:mm a'}}
+                    {{meeting.startTime | date:'MMM d, y, h:mm a'}}
                   </span>
                 </div>
               </div>
@@ -50,7 +45,7 @@ interface Meeting {
                 <div class="time-details">
                   <span class="time-label">Ends</span>
                   <span class="time-value">
-                    {{meeting.endDateTime | date:'MMM d, y, h:mm a'}}
+                    {{meeting.endTime | date:'MMM d, y, h:mm a'}}
                   </span>
                 </div>
               </div>
@@ -62,20 +57,40 @@ interface Meeting {
                 </div>
               </div>
             </div>
+            
+            <div class="meeting-description">
+              Meeting Link: <a [href]="meeting.meetingLink">{{meeting.meetingLink}}</a>
+            </div>
 
             <div class="duration-badge">
               <i class="far fa-hourglass"></i>
-              {{getDuration(meeting.startDateTime, meeting.endDateTime)}}
+              {{getDuration(meeting.startTime, meeting.endTime)}}
             </div>
 
-           
+            <!-- Added participants list using existing styling -->
+            <div class="meeting-description">
+              <p><strong>Participants:</strong></p>
+              <div *ngIf="hasParticipants(meeting)">
+                <p *ngFor="let participant of meeting.participants">
+                  - {{participant.userId}}
+                </p>
+              </div>
+              <p *ngIf="!hasParticipants(meeting)">No participants added yet</p>
+            </div>
+
+            <div class="button-container">
+              <button class="add-participant-btn" (click)="addParticipant(meeting.id,meeting)">
+                <span class="icon">➕</span>
+                Add Participant
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    /* Modern Dashboard Layout */
+    /* Dashboard Layout */
     .dashboard {
       padding: 2rem;
       background-color: #f8f9fa;
@@ -221,60 +236,42 @@ interface Meeting {
       margin-bottom: 1.5rem;
     }
 
-    /* Form Styling */
-    .meeting-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    /* Button Container */
+    .button-container {
+      text-align: center;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
-      font-weight: 500;
-      color: #374151;
-    }
-
-    .form-control {
-      padding: 0.75rem;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.2s ease;
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: #0083b0;
-      box-shadow: 0 0 0 3px rgba(0, 131, 176, 0.1);
-    }
-
-    .submit-btn {
-      background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+    .add-participant-btn {
+      background-color: #2c3e50;
       color: white;
       border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 500;
+      border-radius: 25px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
+      gap: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
     }
 
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0, 131, 176, 0.2);
+    .add-participant-btn .icon {
+      font-size: 18px;
     }
 
-    .submit-btn:active {
-      transform: translateY(0);
+    .add-participant-btn:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .add-participant-btn:active {
+      background-color: #3e8e41;
+      transform: scale(1);
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
     }
 
     /* Responsive Design */
@@ -296,56 +293,23 @@ interface Meeting {
   `]
 })
 export class MeetingsComponent implements OnInit {
-  meetings: Meeting[] = [];
+  meetings: MeetingDetails[] = [];
   editForms: { [key: number]: FormGroup } = {};
+  toEmail:string | undefined;
+  message:string | undefined;
+  constructor(private fb: FormBuilder,
+    private emailService:EmailService,
+    private meetingService: MeetingService, private authService: AuthService) {}
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit() {
-    // Mock data - Replace with API call later
-    this.meetings = [
-      {
-        id: 1,
-        title: 'Weekly Team Sync',
-        description: 'Discuss project progress, blockers, and upcoming deliverables with the development team.',
-        startDateTime: new Date('2024-11-14T10:00:00'),
-        endDateTime: new Date('2024-11-14T11:00:00'),
-        timeZone: 'UTC+05:30 (IST)',
-        status: 'SCHEDULED'
-      },
-      {
-        id: 2,
-        title: 'Client Project Review',
-        description: 'Monthly review meeting with client stakeholders to present progress and gather feedback.',
-        startDateTime: new Date('2024-11-15T15:30:00'),
-        endDateTime: new Date('2024-11-15T17:00:00'),
-        timeZone: 'UTC+05:30 (IST)',
-        status: 'SCHEDULED'
-      },
-      {
-        id: 3,
-        title: 'Sprint Planning',
-        description: 'Plan and prioritize tasks for the upcoming sprint with the development team.',
-        startDateTime: new Date('2024-11-16T11:00:00'),
-        endDateTime: new Date('2024-11-16T12:30:00'),
-        timeZone: 'UTC+05:30 (IST)',
-        status: 'SCHEDULED'
-      }
-    ];
-
-    // Initialize form groups for each meeting
-    this.meetings.forEach(meeting => {
-      this.editForms[meeting.id] = this.fb.group({
-        status: [meeting.status]
-      });
-    });
+  hasParticipants(meeting: MeetingDetails): boolean {
+    return Array.isArray(meeting.participants) && meeting.participants.length > 0;
   }
 
   getStatusClass(status: string): string {
     return `status-${status.toLowerCase().replace('_', '-')}`;
   }
 
-  getDuration(start: Date, end: Date): string {
+  getDuration(start: string, end: string): string {
     const durationMs = new Date(end).getTime() - new Date(start).getTime();
     const hours = Math.floor(durationMs / (1000 * 60 * 60));
     const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
@@ -356,15 +320,66 @@ export class MeetingsComponent implements OnInit {
     return `${minutes}m`;
   }
 
-  updateMeeting(meetingId: number) {
-    const formValue = this.editForms[meetingId].value;
-    const meetingIndex = this.meetings.findIndex(m => m.id === meetingId);
-    
-    if (meetingIndex !== -1) {
-      this.meetings[meetingIndex] = {
-        ...this.meetings[meetingIndex],
-        ...formValue
-      };
+  addParticipant(meetingId: number,meeting:MeetingDetails) {
+    let check=false;
+    let userId = prompt('Please enter the user ID to add as participant:');
+    if (!userId) {
+      alert('User ID is required to add a participant.');
+      return;
     }
+    this.toEmail =userId;
+    this.message= `You are scheduled to meeting ${meeting.title} at ${meeting.startTime} ${meeting.timeZone}. 
+    Please join with the given link ${meeting.meetingLink}`;
+    this.authService.getUserByUserName(userId).subscribe({
+      next: (response) =>{
+        console.log(response.isSuccess);
+        if(response.isSuccess && userId)
+        {
+          this.meetingService.addParticipant(meetingId, userId).subscribe({
+            next: (response) => {
+              if(this.toEmail && this.message)
+              {
+                
+              this.emailService.sendEmail(this.toEmail, this.message).then(() => {
+                alert('Participant added. Email sent successfully!');
+                this.toEmail = '';
+                this.message = '';
+   })
+   .catch((error) => {
+     console.error('Error sending email:', error);
+     alert('Participant added but failed to send email.');
+   });
+              }
+              // Refresh the meetings list to show the new participant
+              this.loadMeetings();
+            },
+            error: (error) => {
+              alert('Error adding participant: ' + error.message);
+            }
+          });
+        }
+        else{
+          alert("There is no user in exist with the given username");
+        }
+      },
+      error:(error)=>{
+        alert("There is no user in exist with the given username");
+      }});
+     
+  }
+
+  loadMeetings() {
+    this.meetingService.getAllMeetings().subscribe({
+      next: (res) => {
+        this.meetings = res;
+      },
+      error: (error) => {
+        alert('Error loading meetings: ' + error.message);
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.loadMeetings();
   }
 }
