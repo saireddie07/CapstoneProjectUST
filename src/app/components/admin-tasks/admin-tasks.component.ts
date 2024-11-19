@@ -11,6 +11,8 @@ export interface UserDetails {
   email: string;
   phoneNumber: string;
   role: string;
+  timeZone: string;
+  currentStatus: string;
 }
 
 @Component({
@@ -46,24 +48,30 @@ export interface UserDetails {
               </div>
               
               <ng-container *ngIf="selectedUser === task.userName">
-                <div class="user-details" *ngIf="mockUserDetails">
-                  <div class="user-info-card">
-                    <h3>User Details</h3>
-                    <div class="user-info-item">
-                      <strong>Name:</strong> {{mockUserDetails.username}}
-                    </div>
-                    <div class="user-info-item">
-                      <strong>Email:</strong> {{mockUserDetails.email}}
-                    </div>
-                    <div class="user-info-item">
-                      <strong>Phone:</strong> {{mockUserDetails.phoneNumber}}
-                    </div>
-                    <div class="user-info-item">
-                      <strong>Role:</strong> {{mockUserDetails.role}}
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
+  <div class="user-details" *ngIf="mockUserDetails">
+    <div class="user-info-card">
+      <h3>User Details</h3>
+      <div class="user-info-item">
+        <strong>Name:</strong> {{mockUserDetails.username}}
+      </div>
+      <div class="user-info-item">
+        <strong>Email:</strong> {{mockUserDetails.email}}
+      </div>
+      <div class="user-info-item">
+        <strong>Phone:</strong> {{mockUserDetails.phoneNumber}}
+      </div>
+      <div class="user-info-item">
+        <strong>Role:</strong> {{mockUserDetails.role}}
+      </div>
+      <div class="user-info-item">
+        <strong>Time Zone:</strong> {{mockUserDetails.timeZone}}
+      </div>
+      <div class="user-info-item">
+        <strong>Availability:</strong> {{mockUserDetails.currentStatus}}
+      </div>
+    </div>
+  </div>
+</ng-container>
 
               <div class="date-item">
                 <i class="far fa-calendar-check"></i>
@@ -164,10 +172,10 @@ export class AdminTasksComponent implements OnInit {
       this.mockUserDetails = null;
       return;
     }
-
+  
     this.selectedUser = username;
     this.userDetailsError = false;
-
+  
     this.authService.getUserByUserName(username).subscribe({
       next: (response) => {
         if (response.isSuccess && response.result) {
@@ -175,7 +183,9 @@ export class AdminTasksComponent implements OnInit {
             username: response.result.name,
             email: response.result.email,
             phoneNumber: response.result.phoneNumber,
-            role: response.result.role
+            role: response.result.role,
+            timeZone: response.result.timeZone,
+            currentStatus: response.result.currentStatus
           };
         } else {
           this.userDetailsError = true;

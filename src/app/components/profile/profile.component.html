@@ -1,1 +1,67 @@
-<p>profile works!</p>
+<div class="dashboard">
+    <div class="profile-container">
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="avatar-section">
+            <div class="avatar-container">
+              <img [src]="profile.avatar" [alt]="profile.name" class="avatar">
+              <span class="availability-indicator" [ngClass]="getAvailabilityClass(profile.availability)"></span>
+            </div>
+          </div>
+  
+          <div class="profile-info">
+            <h1>{{profile.name}}</h1>
+            <p class="email">{{profile.email}}</p>
+            <p class="role-info">Role: {{profile.role}}</p>
+            <p class="phone-info">Phone: {{profile.phoneNumber}}</p>
+            <div class="timezone-badge">
+              <i class="fas fa-globe"></i>
+              {{profile.timeZone}}
+            </div>
+          </div>
+        </div>
+  
+        <div class="profile-body">
+          <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
+            <div class="form-section">
+              <h2>Availability Settings</h2>
+              
+              <div class="form-group">
+                <label>Current Status</label>
+                <select formControlName="availability" class="form-control">
+                  <option value="AVAILABLE">Available</option>
+                  <option value="IN_MEETING">In Meeting</option>
+                  <option value="BUSY">Busy</option>
+                  <option value="DO_NOT_DISTURB">Do Not Disturb</option>
+                  <option value="OFFLINE">Offline</option>
+                </select>
+              </div>
+  
+              <div class="form-group">
+                <label>Time Zone</label>
+                <select formControlName="timeZone" class="form-control">
+                  <option value="UTC+05:30 (IST)">UTC+05:30 (IST)</option>
+                  <option value="UTC+00:00 (GMT)">UTC+00:00 (GMT)</option>
+                  <option value="UTC-08:00 (PST)">UTC-08:00 (PST)</option>
+                  <option value="UTC-05:00 (EST)">UTC-05:00 (EST)</option>
+                </select>
+              </div>
+  
+              <div class="form-group">
+                <label>Status Message (Optional)</label>
+                <input 
+                  type="text" 
+                  formControlName="statusMessage" 
+                  class="form-control"
+                  placeholder="Set a status message">
+              </div>
+            </div>
+  
+            <button type="submit" class="submit-btn">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

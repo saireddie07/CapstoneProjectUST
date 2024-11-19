@@ -7,3 +7,19 @@ export interface User {
     role: string;
     approved:boolean
   }
+
+export interface UserDetailsResponse {
+    result: {
+      timeZone: string;
+      id: string;
+      email: string;
+      name: string;
+      phoneNumber: string;
+      role: string;
+      isApproved: boolean | null;
+      currentStatus:string;
+     
+    };
+    isSuccess: boolean;
+    message: string;
+  }

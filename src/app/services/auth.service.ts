@@ -3,8 +3,12 @@ import { Observable, of } from 'rxjs';
 import { delay, tap, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserAuth } from '../models/authuser.interface';
-import { User } from '../models/user.interface';
+import { User, UserDetailsResponse  } from '../models/user.interface';
 
+interface UpdateStatusRequest {
+  currentStatus: string;
+  timeZone: string;
+}
 interface LoginResponse {
   result: {
     user: {
@@ -13,7 +17,9 @@ interface LoginResponse {
       name: string;
       phoneNumber: string;
       role: string;
-      isApproved: boolean
+      isApproved: boolean;
+      currentStatus:string;
+      timeZone:string
     };
     token: string;
   };
@@ -33,18 +39,7 @@ interface ApiResponse {
   message: string;
 }
 
-interface UserDetailsResponse {
-  result: {
-    id: string;
-    email: string;
-    name: string;
-    phoneNumber: string;
-    role: string;
-    isApproved: boolean | null;
-  };
-  isSuccess: boolean;
-  message: string;
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -114,6 +109,14 @@ export class AuthService {
     
     // If your API expects POST request instead of PUT, use this:
     // return this.http.post<ApiResponse>(url, {});
+  }
+  updateUserStatusAndTimezone(
+    username: string, 
+    statusData: UpdateStatusRequest
+  ): Observable<ApiResponse> {
+    const url = `${this.apiUrl}/updateStatusAndTimeZoneByUsername/${username}`;
+    
+    return this.http.put<ApiResponse>(url, statusData);
   }
 
   getUserByUserName(username: string): Observable<UserDetailsResponse> {
