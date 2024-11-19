@@ -19,6 +19,7 @@ namespace AuthAPI.service.IService
             _userManager = userManager;
             _roleManager = roleManager;
         }
+       
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             var user = _db.applicationUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDto.UserName.ToLower());
@@ -46,6 +47,29 @@ namespace AuthAPI.service.IService
             return loginResponseDto;
 
         }
+        public async Task<bool> UpdateUserStatusAndTimeZoneByUsername(string username, string currentStatus, string timeZone)
+
+        {
+
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+
+            {
+
+                return false;
+
+            }
+
+            user.currentStatus = currentStatus;
+
+            user.TimeZone = timeZone;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+
+        }
         public async Task<List<ApplicationUser>> GetUnapprovedUsersAsync()
         {
             return _userManager.Users
@@ -67,7 +91,9 @@ namespace AuthAPI.service.IService
                 Name = user.Name,
                 PhoneNumber = user.PhoneNumber,
                 Role = user.Role,
-                IsApproved = user.IsApproved
+                IsApproved = user.IsApproved,
+                currentStatus=user.currentStatus,
+                TimeZone= user.TimeZone,
             };
         }
 

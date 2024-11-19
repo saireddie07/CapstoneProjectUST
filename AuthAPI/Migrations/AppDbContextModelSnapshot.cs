@@ -244,6 +244,12 @@ namespace AuthAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TimeZone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("currentStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 

@@ -24,6 +24,30 @@ namespace AuthAPI.Controllers
         }
 
 
+        [HttpPut("updateStatusAndTimeZoneByUsername/{username}")]
+
+        public async Task<IActionResult> UpdateStatusAndTimeZoneByUsername(string username, [FromBody] UserStatusUpdateDto model)
+
+        {
+
+            var isUpdated = await _authService.UpdateUserStatusAndTimeZoneByUsername(username, model.currentStatus, model.TimeZone);
+
+            if (!isUpdated)
+
+            {
+
+                _response.IsSuccess = false;
+
+                _response.Message = "Error encountered while updating user status or time zone";
+
+                return BadRequest(_response);
+
+            }
+
+            return Ok(_response);
+
+        }
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)

@@ -11,6 +11,8 @@ namespace AuthAPI.service.IService
         Task<UserDto> GetUserDetailsByUsername(string username);
         Task<bool> UpdateIsApproved(string username, bool isApproved);
         Task<List<ApplicationUser>> GetUnapprovedUsersAsync();
+        Task<bool> UpdateUserStatusAndTimeZoneByUsername(string username, string currentStatus, string timeZone);
+
 
     }
 }
